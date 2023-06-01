@@ -189,7 +189,7 @@ touch logfile.txt
 while true; do
     echo "Textual Mode:"
     echo "1. User Account Management"
-    echo "2. Server Usage Monitoring"
+    echo "2. File changes"
     echo "3. Quit"
 
     read -p "Choose the mode: " mode
@@ -221,7 +221,7 @@ while true; do
             done
             ;;
         2)
-            echo "Server Usage Monitoring:"
+            echo "File changes"
             monitor_file_modifications
             ;;
         3)
