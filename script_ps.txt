@@ -138,19 +138,6 @@ delete_user()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 display_user() {
    w
    id
@@ -168,6 +155,7 @@ create_users_from_file() {
 
 
 delete_users_from_file() {
+	logging "deleting users from file"
    read -p "Enter the path to the text file: " file_path
     
     # Check if the file exists
