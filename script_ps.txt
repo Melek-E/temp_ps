@@ -72,35 +72,79 @@ modify_password() {
 
 
 
+modify_uid() {
+current_username=$1
+read -p "Enter new UID: " uid
+sudo usermod -u $uid $current_username
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Function to delete a user account
-delete_user() {
-   : ;
-    # Add code to delete a user account
 }
+
+
+
+
+
+
+
+
+delete_user()
+ {
+   read -p "Enter username: " username
+   if id "$username" &>/dev/null; then
+   	if [ "$username" != "$(whoami)" ]; then
+   		sudo deluser "$username"
+   	else
+   		echo "probablky shouldnt delete the logged in user right?"
+   	fi
+   
+   else
+   echo "User does not exist"
+   fi
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Function to display user account details
 display_user() {
@@ -159,4 +203,3 @@ while true; do
         *) echo "Invalid choice. Please try again." ;;
     esac
 done
-
