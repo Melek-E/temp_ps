@@ -18,7 +18,7 @@ sudo echo "[$timestamp] $operation" >> "$logfile"
 
 
 
-# Function to create a user account
+
 create_user() {
 	read -p "Enter username: " username
    	
@@ -29,7 +29,7 @@ create_user() {
     
 }
 
-# Function to modify a user account
+
 
 modify_user() {
 logging "Modifying User"
@@ -195,31 +195,52 @@ monitor_file_modifications() {
 # 2023-06-01
 # 2023-05-31
 # Main script
-echo "User Account Management Script"
+echo "User Account Management or file monitoring Script"
 touch logfile.txt
 
 while true; do
-    echo "1. Create User"
-    echo "2. Modify User"
-    echo "3. Delete User"
-    echo "4. Display User"
-    echo "5. Create Users from File"
-    echo "6. Delete Users from File"
-    echo "7. Monitor File Modifications"
-    echo "8. Exit"
-    echo "9.Create from file"
+    echo "Textual Mode:"
+    echo "1. User Account Management"
+    echo "2. Server Usage Monitoring"
+    echo "3. Quit"
 
-    read -p "Enter your choice: " choice
+    read -p "Choose the mode: " mode
 
-    case $choice in
-        1) create_user ;;
-        2) modify_user ;;
-        3) delete_user ;;
-        4) display_user ;;
-        5) create_users_from_file ;;
-        6) delete_users_from_file ;;
-        7) monitor_file_modifications ;;
-        8) exit ;;
-        *) echo "Invalid choice. Please try again." ;;
+    case $mode in
+        1)
+            while true; do
+                echo "User Account Management:"
+                echo "1. Create User"
+                echo "2. Modify User"
+                echo "3. Delete User"
+                echo "4. Display User"
+                echo "5. Create Users from File"
+                echo "6. Delete Users from File"
+                echo "7. Back"
+
+                read -p "Choose an action: " action
+
+                case $action in
+                    1) create_user ;;
+                    2) modify_user ;;
+                    3) delete_user ;;
+                    4) display_user ;;
+                    5) create_users_from_file ;;
+                    6) delete_users_from_file ;;
+                    7) break ;;
+                    *) echo "Invalid choice. Please try again." ;;
+                esac
+            done
+            ;;
+        2)
+            echo "Server Usage Monitoring:"
+            monitor_file_modifications
+            ;;
+        3)
+            exit
+            ;;
+        *)
+            echo "Invalid choice. Please try again."
+            ;;
     esac
 done
