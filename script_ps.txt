@@ -1,0 +1,162 @@
+#!/bin/bash
+
+# Function to create a user account
+create_user() {
+	read -p "Enter username: " username
+   	
+   	sudo adduser $username
+    
+}
+
+# Function to modify a user account
+
+modify_user() {
+
+while true; do
+#check if user exists 
+read -p "Enter username: " username
+#use if with id directly if already checks for the exit code.
+if id "$username" &>/dev/null; then
+    echo 'user found'
+    break
+else
+    echo 'user not found, try again'
+fi
+done
+
+ echo "Select what to modify:"
+        echo "1. Username"
+        echo "2. Password"
+        echo "3. UID"
+        echo "4. Cancel"
+        
+        read -p "Enter your choice: " choice
+        
+        case $choice in
+            1) modify_username $username ;;
+            2) modify_password $username ;;
+            3) modify_uid $username ;;
+            4) echo "Operation canceled." ;;
+            *) echo "Invalid choice." ;;
+        esac
+
+
+
+
+ 
+: ;}
+
+modify_username() {
+current_username=$1 #arg
+read -p "Enter new username: " new_username
+
+if id "$new_username" &>/dev/null; then
+echo "username exists already"
+else
+sudo usermod -l $new_username $current_username
+fi
+}
+
+
+
+modify_password() {
+    current_username=$1
+    read -p "Enter new password: " new_password
+    
+    # Add code to modify the password of the user account
+    echo "$current_username:$new_password" | sudo chpasswd
+    
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Function to delete a user account
+delete_user() {
+   : ;
+    # Add code to delete a user account
+}
+
+# Function to display user account details
+display_user() {
+   : ;
+    # Add code to display user account details
+}
+
+# Function to create user accounts from a file
+create_users_from_file() {
+   : ;
+    # Add code to create user accounts from a file
+}
+
+# Function to delete user accounts from a file
+delete_users_from_file() {
+   : ;
+    # Add code to delete user accounts from a file
+}
+
+# Function to log operations in a log file
+log_operation() {
+   : ;
+    # Add code to log operations in a log file
+}
+
+# Function to monitor file modifications within a specified date range
+monitor_file_modifications() {
+   : ;
+    # Add code to monitor file modifications within a specified date range
+}
+
+# Main script
+echo "User Account Management Script"
+
+while true; do
+    echo "1. Create User"
+    echo "2. Modify User"
+    echo "3. Delete User"
+    echo "4. Display User"
+    echo "5. Create Users from File"
+    echo "6. Delete Users from File"
+    echo "7. Monitor File Modifications"
+    echo "8. Exit"
+
+    read -p "Enter your choice: " choice
+
+    case $choice in
+        1) create_user ;;
+        2) modify_user ;;
+        3) delete_user ;;
+        4) display_user ;;
+        5) create_users_from_file ;;
+        6) delete_users_from_file ;;
+        7) monitor_file_modifications ;;
+        8) exit ;;
+        *) echo "Invalid choice. Please try again." ;;
+    esac
+done
+
