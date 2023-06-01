@@ -1,16 +1,38 @@
 #!/bin/bash
 
+
+
+
+logging()
+{
+operation=$1
+
+logfile="./logfile.txt"
+
+timestamp=$(date)
+
+sudo echo "[$timestamp] $operation" >> "$logfile"
+}
+
+
+
+
+
 # Function to create a user account
 create_user() {
 	read -p "Enter username: " username
    	
-   	sudo adduser $username
+   	sudo adduser $username --disabled-password 
+   	#passwrd change
+   	sudo passwd "$username"
+   	logging "Create user"
     
 }
 
 # Function to modify a user account
 
 modify_user() {
+logging "Modifying User"
 
 while true; do
 #check if user exists 
@@ -73,6 +95,7 @@ modify_password() {
 
 
 modify_uid() {
+
 current_username=$1
 read -p "Enter new UID: " uid
 sudo usermod -u $uid $current_username
@@ -88,6 +111,7 @@ sudo usermod -u $uid $current_username
 
 delete_user()
  {
+ logging "Deleting user"
    read -p "Enter username: " username
    if id "$username" &>/dev/null; then
    	if [ "$username" != "$(whoami)" ]; then
@@ -127,57 +151,52 @@ delete_user()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Function to display user account details
 display_user() {
-   : ;
-    # Add code to display user account details
+   w
+   id
 }
 
-# Function to create user accounts from a file
+
 create_users_from_file() {
-   : ;
-    # Add code to create user accounts from a file
+	logging "creating users from file"
+    read -p "Enter the path to the file containing usernames: " file_path
+
+	while IFS= read -r username; do
+	create_user "$username"
+	done < "$file_path"
 }
 
-# Function to delete user accounts from a file
+
 delete_users_from_file() {
-   : ;
-    # Add code to delete user accounts from a file
+   read -p "Enter the path to the text file: " file_path
+    
+    # Check if the file exists
+    if [ -f "$file_path" ]; then
+        # Read the file line by line and delete user accounts
+        while IFS= read -r username; do
+            # Delete the user account
+            delete_user "$username"
+        done < "$file_path"
+    else
+        echo "File does not exist."
+    fi
 }
 
-# Function to log operations in a log file
-log_operation() {
-   : ;
-    # Add code to log operations in a log file
-}
+
 
 # Function to monitor file modifications within a specified date range
 monitor_file_modifications() {
-   : ;
-    # Add code to monitor file modifications within a specified date range
-}
+   read -p "Enter the start date (YYYY-MM-DD): " start_date
+   read -p "Enter the end date (YYYY-MM-DD): " end_date
+   echo "files modified"
 
+    find . -newermt "$start_date" ! -newermt "$end_date"
+}
+# 2023-06-01
+# 2023-05-31
 # Main script
 echo "User Account Management Script"
+touch logfile.txt
 
 while true; do
     echo "1. Create User"
@@ -188,6 +207,7 @@ while true; do
     echo "6. Delete Users from File"
     echo "7. Monitor File Modifications"
     echo "8. Exit"
+    echo "9.Create from file"
 
     read -p "Enter your choice: " choice
 
